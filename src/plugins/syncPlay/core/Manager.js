@@ -283,8 +283,9 @@ class Manager {
         // Make sure command matches playing item in playlist.
         const playlistItemId = this.queueCore.getCurrentPlaylistItemId();
         if (cmd.PlaylistItemId !== playlistItemId && cmd.Command !== 'Stop') {
-            console.error('SyncPlay processCommand: playlist item does not match!', cmd);
-            return;
+            console.error('SyncPlay processCommand: playlist item does not match! Will attempt to change playlist item.', cmd);
+
+            this.queueCore.setCurrentPlaylistItem(cmd.PlaylistItemId);
         }
 
         console.log(`SyncPlay will ${cmd.Command} at ${cmd.When} (in ${cmd.When.getTime() - Date.now()} ms)${cmd.PositionTicks ? '' : ' from ' + cmd.PositionTicks}.`);
